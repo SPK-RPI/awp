@@ -1,0 +1,89 @@
+.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    
+        <asp:Label ID="Label1" runat="server" Text="Roll No"></asp:Label>
+&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="txtRoll" runat="server"></asp:TextBox>
+        <br />
+    
+    </div>
+    <div>
+    
+        <asp:Label ID="Label2" runat="server" Text="Name"></asp:Label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+        <br />
+    
+    </div>
+    <div>
+    
+        <asp:Label ID="Label3" runat="server" Text="Address"></asp:Label>
+&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="txtAdd" runat="server"></asp:TextBox>
+        <br />
+    
+    </div>
+    <div>
+    
+        <asp:Label ID="Label4" runat="server" Text="Contact"></asp:Label>
+&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="txtCont" runat="server"></asp:TextBox>
+    
+    </div>
+        <br />
+        <asp:Button ID="btnSave" runat="server" OnClick="save_Click" Text="Save" />
+        <asp:Label ID="lblMsg" runat="server" ForeColor="Red" Text="Label"></asp:Label>
+    </form>
+</body>
+</html>
+
+
+.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Data;
+
+public partial class _Default : System.Web.UI.Page
+{
+    SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=StudentDemo;Integrated Security=True");
+    SqlCommand cmd;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void save_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            con.Open();
+            string str = "Insert into TBL_STUD_DETAILS(RollNo,Name,Address,Contact)values('" + Convert.ToInt32(txtRoll.Text) + "','" + txtName.Text + "','" + txtAdd.Text + "','" + Convert.ToInt32(txtCont.Text) + "')";
+            cmd=new SqlCommand(str,con); 
+            cmd.CommandType=CommandType.Text;
+            int result=cmd.ExecuteNonQuery();
+            lblMsg.Text="Records inserted successfully";
+        }
+        catch (Exception exp)
+        {
+            lblMsg.Text = exp.ToString();
+        }
+
+    }
+
+}
