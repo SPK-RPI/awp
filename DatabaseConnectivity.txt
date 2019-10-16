@@ -1,0 +1,64 @@
+.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    
+        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
+    
+    </div>
+        <asp:TextBox ID="TextBox1" runat="server" TextMode="MultiLine" Text="<%#str %>">"></asp:TextBox>
+    </form>
+</body>
+</html>
+
+
+.cs
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+
+public partial class _Default : System.Web.UI.Page
+{
+    protected string str;
+    SqlConnection con=new SqlConnection("Data Source=.;Initial Catalog=suru;Integrated Security=True");
+    SqlCommand cmd;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            cmd = new SqlCommand("select*from suru_Table", con);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                str += dr["RollNo"] + " " + dr["Name"] + "\n";
+            }
+            this.DataBind();
+        }
+          catch(Exception exp)
+            {
+
+             }
+        }
+    }
