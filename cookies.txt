@@ -1,0 +1,118 @@
+.aspx1
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <h1>Login Form</h1>
+    <form id="form1" runat="server">
+    <div>
+    
+    </div>
+        <asp:Label ID="Label1" runat="server" Text="Name"></asp:Label>
+        <asp:TextBox ID="txtUser" runat="server"></asp:TextBox>
+        <p>
+            <asp:Label ID="Label3" runat="server" Text="Password"></asp:Label>
+            <asp:TextBox ID="TxtPass" runat="server" TextMode="Password" OnTextChanged="TxtPass_TextChanged"></asp:TextBox>
+        </p>
+        <p>
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="SAVE" />
+        </p>
+        <p>
+            <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Passing Cookie" />
+        </p>
+    </form>
+</body>
+</html>
+
+.cs1
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class _Default : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Session["UName"] = txtUser.Text;
+        Session["Pass"] = txtPass.Text;
+        Response.Redirect("~/Default2.aspx");
+           
+    }
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        HttpCookie CkU, CkP;
+        CkU = new HttpCookie("UserName", txtUser.Text);
+        CkP = new HttpCookie("Password", txtPass.Text);
+        Response.AppendCookie(CkU);
+        Response.AppendCookie(CkP);   
+        Response.Redirect("/Default2.aspx");
+    }
+    protected void TxtPass_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+}
+
+
+aspx2
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default2.aspx.cs" Inherits="Default2" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    
+    </div>
+        <asp:Button ID="Button1" runat="server" Text="Click To Display Username And Password" OnClick="Button1_Click" />
+      <br>
+         Welcome<asp:Label ID="lblName" runat="server"></asp:Label>
+        <br>
+       Your Password Is<asp:Label ID="lblPass" runat="server"></asp:Label>
+    </form>
+</body>
+</html>
+
+.cs2
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default2 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        lblName.Text = Convert.ToString(Session["UName"]);
+        lblPass.Text = Convert.ToString(Session["Pass"]);
+    }
+}
+
+
+
