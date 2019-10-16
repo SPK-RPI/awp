@@ -1,0 +1,184 @@
+.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+   
+        <h1>Querry String Demo</h1>
+           
+    <form id="form1" runat="server">
+        <asp:Label ID="lblName" runat="server" Text="Name"></asp:Label>
+        <asp:TextBox ID="TxtName" runat="server"></asp:TextBox>
+        <p>
+            <asp:Label ID="lblAdd" runat="server" Text="Address"></asp:Label>
+            <asp:TextBox ID="TxtAdd" runat="server" TextMode="MultiLine"></asp:TextBox>
+        </p>
+        <p>
+            <asp:Label ID="lblMail" runat="server" Text="E-Mail"></asp:Label>
+            <asp:TextBox ID="TxtMail" runat="server" TextMode="Email"></asp:TextBox>
+        </p>
+        <p>
+            <asp:Label ID="lblContact" runat="server" Text="Contact"></asp:Label>
+            <asp:TextBox ID="TxtCont" runat="server" TextMode="Number"></asp:TextBox>
+        </p>
+        <p>
+            <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="SAVE" style="height: 26px" />
+        </p>
+        <p>
+            <asp:Button ID="Button3" runat="server" OnClick="Button3_Click1" Text="Button" />
+        </p>
+        <p>
+            &nbsp;</p>
+    </form>
+</body>
+</html>
+
+
+.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class _Default : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+       
+    }
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        HttpCookie CkU, CkA, CkM, CkC;
+        CkU = new HttpCookie("UserName", TxtName.Text);
+        CkA = new HttpCookie("UserAdd", TxtAdd.Text);
+        CkM = new HttpCookie("UserMail", TxtMail.Text);
+        CkC = new HttpCookie("UserCont", TxtCont.Text);
+        Response.AppendCookie(CkU);
+        Response.AppendCookie(CkA);
+        Response.AppendCookie(CkM);
+        Response.AppendCookie(CkC);
+        Response.Redirect("~/Default2.aspx");
+    }
+    
+    protected void Button3_Click1(object sender, EventArgs e)
+    {
+        Response.Redirect("QueryString.aspx?UserName=" + TxtName.Text + "&Address=" + TxtAdd.Text);
+    }
+}
+
+.aspx2
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default2.aspx.cs" Inherits="Default2" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        Welcome
+        <asp:Label ID="lblName" runat="server" BorderStyle="Solid" ForeColor="#0066FF"></asp:Label>
+        <p>
+            &nbsp;Your address is<asp:Label ID="lblAdd" runat="server" BorderStyle="Solid" ForeColor="#0066FF"></asp:Label>
+        </p>
+        <p>
+            Your Mail Is:<asp:Label ID="lblMail" runat="server" BorderStyle="Solid" ForeColor="#0066FF"></asp:Label>
+        </p>
+        <p>
+            Your Contact is:<asp:Label ID="lblContact" runat="server" BorderStyle="Solid" ForeColor="#0066FF"></asp:Label>
+        </p>
+        
+        <asp:Button ID="Button2" runat="server" OnClick="Button2_Click1" Text="Button" />
+        
+        </form>
+</body>
+</html>
+
+.cs2
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default2 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void Button2_Click1(object sender, EventArgs e)
+    {
+        lblName.Text = Request.Cookies["UserName"].Value;
+       lblAdd.Text = Request.Cookies["UserAdd"].Value;
+        lblMail.Text = Request.Cookies["UserMail"].Value;
+        lblContact.Text = Request.Cookies["UserCont"].Value;
+       
+    }
+}
+
+quarry.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="QueryString.aspx.cs" Inherits="Default3" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    
+    </div>
+        <asp:Label ID="lblName" runat="server" Text="Label"></asp:Label>
+        <p>
+            <asp:Label ID="lblAdd" runat="server" Text="Label"></asp:Label>
+        </p>
+    </form>
+</body>
+</html>
+
+quarry.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default3 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            lblName.Text = Request.QueryString["Name"];
+            lblAdd.Text = Request.QueryString["Mail"];
+            
+        }
+    }
+    
+}
+
+
