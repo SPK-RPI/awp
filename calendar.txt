@@ -1,0 +1,143 @@
+.cs file
+
+
+using System;
+using System.Collections;
+
+using System.Web.UI.WebControls;
+
+
+namespace calendar
+{
+   
+
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+
+        Hashtable HolidayList;
+
+
+        private Hashtable GetHoliday()
+        {
+            //change the format 1/26/2019 to 26-Jan-19 if no holiday list in the calendar
+            Hashtable holiday = new Hashtable();
+            holiday["01-Jan-19"] = "New Year";
+            holiday["05-Aug-19"] = "Guru Govind Singh Jayanti";
+            holiday["08-Aug-19"] = "Muharam (Al Hijra)";
+            holiday["14-Jan-19"] = "Pongal";
+            holiday["26-Jan-19"] = "Republic Day";
+            holiday["23-Feb-19"] = "Maha Shivaratri";
+            return holiday;
+
+        }
+      
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            HolidayList = GetHoliday();
+
+            cal.Caption = "Created by Shiva ";
+            cal.FirstDayOfWeek = FirstDayOfWeek.Sunday;
+            cal.NextPrevFormat = NextPrevFormat.ShortMonth;
+            cal.TitleFormat = TitleFormat.Month;
+            cal.ShowGridLines = true;
+          
+            cal.DayStyle.Height = new Unit(50);
+            cal.DayStyle.Width = new Unit(50);
+            cal.OtherMonthDayStyle.BackColor = System.Drawing.Color.Bisque;
+        }
+        protected void cal_SelectionChanged(object sender, EventArgs e)
+        {
+         
+            selDate.Text = cal.SelectedDate.ToShortDateString();
+            if (cal.SelectedDate.ToShortDateString().ToString()== "01-Jan-19")
+            {
+                hol.Text = "New Year";
+            }else if ("05-Aug-19" == cal.SelectedDate.ToShortDateString().ToString())
+            {
+                hol.Text = "Guru Govind Singh Jayanti";
+            }
+            else if ("08-Aug-19" == cal.SelectedDate.ToShortDateString().ToString())
+            {
+                hol.Text = "Muharam (Al Hijra)";
+            }
+            else if ("14-Jan-19"== cal.SelectedDate.ToShortDateString().ToString())
+            {
+                hol.Text = "Pongal";
+            }
+            else if ("26-Jan-19"== cal.SelectedDate.ToShortDateString().ToString())
+            {
+                hol.Text = "Republic Day";
+            }
+            else if ("23-Feb-19"== cal.SelectedDate.ToShortDateString().ToString())
+            {
+                hol.Text = "Maha Shivaratri";
+            }
+
+
+        }
+       
+
+        protected void cal_DayRender1(object sender, DayRenderEventArgs e)
+        {
+
+            lblday.Text = cal.TodaysDate.ToShortDateString();
+
+            if (HolidayList[e.Day.Date.ToShortDateString()] != null)
+            {
+              
+                Literal literal1 = new Literal();
+                literal1.Text = "<br/>";
+                e.Cell.Controls.Add(literal1);
+                Label label1 = new Label();
+                label1.Text = HolidayList[e.Day.Date.ToShortDateString()].ToString();
+                label1.Font.Size = new FontUnit(FontSize.Smaller);
+                e.Cell.BackColor = System.Drawing.Color.LightGreen;
+
+                e.Cell.Controls.Add(label1);
+            }
+
+        }
+
+        protected void cal_VisibleMonthChanged1(object sender, MonthChangedEventArgs e)
+        {
+
+        }
+    }
+}
+
+
+.aspx
+
+
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="calendar.WebForm1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+     <form id="form1" runat="server">
+    <div>
+    <asp:Calendar ID="cal" runat="server" SelectionMode="DayWeekMonth"
+         OnSelectionChanged="cal_SelectionChanged" OnDayRender="cal_DayRender1" 
+        OnVisibleMonthChanged="cal_VisibleMonthChanged1"></asp:Calendar>
+       <p>Todays date is: 
+            <asp:Label ID="lblday" runat="server"></asp:Label>
+         </p>
+         
+         <p>Selected Date is : 
+            <asp:Label ID="selDate" runat="server"></asp:Label>
+         </p>
+
+         <p>Holiday : 
+            <asp:Label ID="hol" runat="server"></asp:Label>
+         </p>
+    </div>
+    </form>
+
+</body>
+</html>
