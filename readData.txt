@@ -1,0 +1,73 @@
+.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <center>
+        <h1>Practical no 7A</h1>
+            <br />
+        <h1>creating a web application to display the detail from the database.</h1>
+    <div>
+    
+    </div>
+        <asp:Label ID="Label1" runat="server" Text="Enter roll no:"></asp:Label>
+            <asp:TextBox ID="txtroll" runat="server"></asp:TextBox>
+        <p>
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Search Record" />
+        </p>
+        <p>
+            <asp:Label ID="Label4" runat="server" Text="Student Name:"></asp:Label>
+            <asp:TextBox ID="txtname" runat="server"></asp:TextBox>
+        </p>
+        <p>
+            <asp:Label ID="Label3" runat="server" Text="Student Class:"></asp:Label>
+            <asp:TextBox ID="txtclass" runat="server"></asp:TextBox>
+        </p>
+        <p>
+            <asp:Label ID="Label2" runat="server" Text="Student E-Mail"></asp:Label>
+            <asp:TextBox ID="txtmail" runat="server"></asp:TextBox>
+        </p>
+    </form>
+</body>
+</html>
+
+
+.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Data;
+public partial class _Default : System.Web.UI.Page
+{
+    string str;
+    SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=suruchi1;Integrated Security=True");
+    SqlCommand cmd;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        cmd = new SqlCommand("Select * from tbl_suru where rollno=" + txtroll.Text, con);
+        con.Open();
+        SqlDataReader dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            txtclass.Text = Convert.ToString(dr["Class"]);
+            txtmail.Text = Convert.ToString(dr["email"]);
+            txtname.Text = Convert.ToString(dr["Name"]);
+        }
+    }
+}
