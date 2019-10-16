@@ -1,0 +1,55 @@
+.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>AdRotator Control</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="height:311px">
+     <asp:AdRotator ID="AdRotator1" runat="server" DataSourceID="XmlDataSource1" />
+        <asp:XmlDataSource ID="XmlDataSource1" runat="server" DataFile="~/XMLFile.xml"></asp:XmlDataSource>
+    </div>
+       
+    </form>
+</body>
+</html>
+
+
+.cs
+nothing
+
+.xml
+
+<?xml version="1.0" encoding="utf-8" ?>
+<Advertisements>
+  <Ad>
+    <ImageUrl>Cat.jpg</ImageUrl>
+  <NavigateUrl>https://www.google.com</NavigateUrl>
+  <AlternetText>Cute</AlternetText>
+  <Keyword>Animal</Keyword>
+  <Impressions>2</Impressions>
+      </Ad>
+<Ad>
+    <ImageUrl>Dog.jpg</ImageUrl>
+  <NavigateUrl>https://www.youtube.com</NavigateUrl>
+  <AlternetText>Cute</AlternetText>
+  <Keyword>Animal</Keyword>
+  <Impressions>2</Impressions>
+      </Ad>
+<Ad>
+    <ImageUrl>Cricket.jpg</ImageUrl>
+  <NavigateUrl>https://www.youtube.com</NavigateUrl>
+  <AlternetText>India</AlternetText>
+  <Keyword>Players</Keyword>
+  <Impressions>2</Impressions>
+      </Ad>
+  </Advertisements>
+    
+  
+
+
