@@ -1,4 +1,4 @@
-SLIP 1 :
+# SLIP 1 :
 Q1
 Create a XML document for student database and apply the style sheet effects and
 display on webpage
